@@ -336,9 +336,12 @@ const quests = [
   }
 ];
 
+const guideQuests = Array.isArray(window.GUIDE_CONTENT) && window.GUIDE_CONTENT.length ? window.GUIDE_CONTENT : quests;
+
 let currentStage = localStorage.getItem("life-guide-stage") || "pregrad";
 let currentPriority = localStorage.getItem("life-guide-priority") || "job";
 let currentFilter = "main";
+let currentSearch = "";
 
 const stageChoices = document.querySelectorAll("[data-stage]");
 const priorityChoices = document.querySelectorAll("[data-priority]");
@@ -347,6 +350,8 @@ const routeSummary = document.querySelector("#routeSummary");
 const routeLine = document.querySelector("#routeLine");
 const questGrid = document.querySelector("#questGrid");
 const questDialog = document.querySelector("#questDialog");
+const questSearch = document.querySelector("#questSearch");
+const questCount = document.querySelector("#questCount");
 
 function syncChoices() {
   stageChoices.forEach((button) => button.classList.toggle("active", button.dataset.stage === currentStage));
@@ -376,7 +381,24 @@ function getTypeMeta(type) {
 }
 
 function renderQuests() {
-  const filtered = quests.filter((quest) => quest.type === currentFilter);
+  const keyword = currentSearch.trim().toLowerCase();
+  const filtered = guideQuests.filter((quest) => {
+    if (quest.type !== currentFilter) return false;
+    if (!keyword) return true;
+    const searchable = [
+      quest.title,
+      quest.summary,
+      quest.lead,
+      quest.veteran,
+      ...(quest.questions || []),
+      ...(quest.pitfalls || [])
+    ]
+      .join(" ")
+      .toLowerCase();
+    return searchable.includes(keyword);
+  });
+
+  questCount.textContent = keyword ? `找到 ${filtered.length} 个相关关卡` : `共 ${filtered.length} 个关卡`;
   questGrid.innerHTML = filtered
     .map((quest) => {
       const meta = getTypeMeta(quest.type);
@@ -393,16 +415,42 @@ function renderQuests() {
       `;
     })
     .join("");
+
+  if (!filtered.length) {
+    questGrid.innerHTML = `
+      <div class="empty-result">
+        <strong>这张地图里暂时没有找到相关关卡</strong>
+        <p>可以换个关键词，或者切换主线、支线和 Boss 战。</p>
+      </div>
+    `;
+  }
 }
 
 function openQuest(id) {
-  const quest = quests.find((item) => item.id === id);
+  const quest = guideQuests.find((item) => item.id === id);
   if (!quest) return;
   const meta = getTypeMeta(quest.type);
   document.querySelector("#dialogMeta").textContent = `${meta.label} · ${quest.level}`;
   document.querySelector("#dialogTitle").textContent = quest.title;
   document.querySelector("#dialogLead").textContent = quest.lead;
-  document.querySelector("#dialogQuestions").innerHTML = quest.questions.map((item) => `<li>${item}</li>`).join("");
+  document.querySelector("#dialogVeteran").textContent = quest.veteran || quest.summary;
+  document.querySelector("#dialogStory").innerHTML = (quest.story || [quest.lead])
+    .map((paragraph) => `<p>${paragraph}</p>`)
+    .join("");
+  document.querySelector("#dialogOptions").innerHTML = (quest.options || [])
+    .map(
+      (option) => `
+        <article class="option-card">
+          <header><h4>${option.name}</h4><span>适合：${option.fit}</span></header>
+          <p><strong>代价：</strong>${option.cost}</p>
+          <p><strong>提醒：</strong>${option.warning}</p>
+        </article>
+      `
+    )
+    .join("");
+  document.querySelector("#dialogQuestions").innerHTML = (quest.questions || []).map((item) => `<li>${item}</li>`).join("");
+  document.querySelector("#dialogPitfalls").innerHTML = (quest.pitfalls || []).map((item) => `<li>${item}</li>`).join("");
+  document.querySelector("#dialogChecklist").innerHTML = (quest.checklist || []).map((item) => `<li>${item}</li>`).join("");
   document.querySelector("#dialogAction").textContent = quest.action;
   document.querySelector("#dialogSource").textContent = quest.source;
   questDialog.showModal();
@@ -436,6 +484,11 @@ tabs.forEach((button) => {
     });
     renderQuests();
   });
+});
+
+questSearch.addEventListener("input", (event) => {
+  currentSearch = event.target.value;
+  renderQuests();
 });
 
 questGrid.addEventListener("click", (event) => {

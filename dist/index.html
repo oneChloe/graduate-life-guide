@@ -14,6 +14,7 @@
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080b12'/%3E%3Cpath d='M12 43 32 12l20 31-20 9z' fill='%23c9ff4a'/%3E%3Cpath d='M23 39 32 25l9 14-9 4z' fill='%23080b12'/%3E%3C/svg%3E"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <script src="./guide-content.js" defer></script>
     <script src="./app.js" defer></script>
   </head>
   <body>
@@ -25,7 +26,7 @@
         <span class="brand-mark" aria-hidden="true">△</span>
         <span>
           <strong>人生通关指南</strong>
-          <small>毕业五年 · 测试存档 0.1</small>
+          <small>毕业五年 · 过来人手册 0.2</small>
         </span>
       </a>
       <button class="ghost-button" id="resetButton" type="button">重新选路</button>
@@ -97,6 +98,14 @@
           </div>
         </div>
 
+        <div class="map-tools">
+          <label class="search-box" for="questSearch">
+            <span>搜索关卡</span>
+            <input id="questSearch" type="search" placeholder="例如：跳槽、租房、裁员、AI" autocomplete="off" />
+          </label>
+          <p id="questCount" aria-live="polite"></p>
+        </div>
+
         <div class="quest-grid" id="questGrid"></div>
       </section>
 
@@ -137,10 +146,37 @@
         <div class="dialog-meta" id="dialogMeta"></div>
         <h2 id="dialogTitle"></h2>
         <p class="dialog-lead" id="dialogLead"></p>
+
+        <blockquote class="veteran-note">
+          <span>过来人先说</span>
+          <p id="dialogVeteran"></p>
+        </blockquote>
+
+        <div class="detail-block prose-block">
+          <h3>为什么很多人会卡在这里</h3>
+          <div id="dialogStory"></div>
+        </div>
+
+        <div class="detail-block">
+          <h3>常见的三条路线</h3>
+          <div class="option-list" id="dialogOptions"></div>
+        </div>
+
         <div class="detail-block">
           <h3>这一关先想清楚</h3>
           <ul id="dialogQuestions"></ul>
         </div>
+
+        <div class="detail-block pitfall-block">
+          <h3>过来人见过的坑</h3>
+          <ul id="dialogPitfalls"></ul>
+        </div>
+
+        <div class="detail-block checklist-block">
+          <h3>离开这一关以前</h3>
+          <ul id="dialogChecklist"></ul>
+        </div>
+
         <div class="detail-block action-block">
           <span>可以今天完成</span>
           <p id="dialogAction"></p>

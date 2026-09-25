@@ -376,10 +376,84 @@ legend span {
   margin-bottom: 28px;
 }
 
+.map-tools {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: rgba(18, 23, 35, 0.62);
+}
+
+.search-box {
+  display: grid;
+  flex: 1;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.search-box span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.search-box input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  outline: 0;
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--text);
+  font: inherit;
+}
+
+.search-box input::placeholder {
+  color: #778194;
+}
+
+.search-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+#questCount {
+  margin: 0 4px 10px 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
 .quest-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+}
+
+.empty-result {
+  grid-column: 1 / -1;
+  padding: 42px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-result strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.empty-result p {
+  margin: 0;
 }
 
 .quest-card {
@@ -501,7 +575,7 @@ footer {
 }
 
 .quest-dialog {
-  width: min(680px, calc(100% - 28px));
+  width: min(780px, calc(100% - 28px));
   max-height: min(82vh, 760px);
   padding: 0;
   overflow: auto;
@@ -548,6 +622,30 @@ footer {
   font-size: 1.05rem;
 }
 
+.veteran-note {
+  margin: 28px 0 0;
+  padding: 22px 24px;
+  border: 1px solid rgba(201, 255, 74, 0.28);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(90deg, rgba(201, 255, 74, 0.11), rgba(201, 255, 74, 0.025));
+}
+
+.veteran-note span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.veteran-note p {
+  margin: 10px 0 0;
+  color: #eff6de;
+  font-size: 1.04rem;
+  font-weight: 700;
+  line-height: 1.75;
+}
+
 .detail-block {
   margin-top: 28px;
   padding-top: 24px;
@@ -567,6 +665,99 @@ footer {
 
 .detail-block li + li {
   margin-top: 9px;
+}
+
+.prose-block p {
+  margin: 0;
+  color: #d4dbe6;
+  line-height: 1.82;
+}
+
+.prose-block p + p {
+  margin-top: 15px;
+}
+
+.option-list {
+  display: grid;
+  gap: 12px;
+}
+
+.option-card {
+  padding: 17px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.option-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.option-card h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.option-card header span {
+  flex: none;
+  color: var(--cyan);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.option-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.option-card p + p {
+  margin-top: 6px;
+}
+
+.option-card strong {
+  color: #dce3ed;
+}
+
+.pitfall-block {
+  padding: 22px;
+  border: 1px solid rgba(255, 107, 117, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 107, 117, 0.055);
+}
+
+.pitfall-block li::marker {
+  color: var(--danger);
+}
+
+.checklist-block ul {
+  display: grid;
+  gap: 9px;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist-block li {
+  position: relative;
+  padding: 11px 12px 11px 42px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.checklist-block li::before {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  content: "";
 }
 
 .action-block {
@@ -686,6 +877,17 @@ footer {
 
   .tabs {
     margin-top: 18px;
+  }
+
+  .map-tools,
+  .search-box {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  #questCount {
+    margin: 0;
   }
 
   .map-section {
