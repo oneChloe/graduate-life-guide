@@ -1,0 +1,36 @@
+name: 纠错或更新资料
+description: 报告过时规则、失效链接、事实错误或容易误导的表达。
+title: "[纠错] "
+labels: ["纠错"]
+body:
+  - type: input
+    id: quest
+    attributes:
+      label: 涉及哪个关卡？
+      placeholder: 填写关卡标题或分享链接
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 问题类型
+      options:
+        - 规则或资料已经过时
+        - 来源链接失效
+        - 事实错误
+        - 表达容易误导
+        - 页面或交互问题
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 具体问题
+      description: 请指出原内容、问题所在和建议改法。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 支持材料
+      description: 涉及事实和规则时，请附官方或原始来源与查询日期。

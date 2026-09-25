@@ -1,0 +1,53 @@
+name: 投稿一段过来人经验
+description: 提交你真正走过的一关，帮助后来者看见具体条件与代价。
+title: "[经验投稿] "
+labels: ["经验投稿"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        谢谢你愿意把走过的路讲清楚。请匿名处理公司、同事、客户和用户信息；涉及政策、健康、法律或金融规则时，请附当前可核验的官方来源。
+  - type: input
+    id: title
+    attributes:
+      label: 这一关叫什么？
+      placeholder: 例如：工作两年后，我怎样判断要不要转行
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 你的背景与当时的处境
+      description: 可写毕业年限、行业、城市层级、家庭责任和当时拥有的选择；不必透露身份。
+    validations:
+      required: true
+  - type: textarea
+    id: choice
+    attributes:
+      label: 你当时有哪些路线，后来选了什么？
+    validations:
+      required: true
+  - type: textarea
+    id: cost
+    attributes:
+      label: 这条路线付出了什么代价？
+    validations:
+      required: true
+  - type: textarea
+    id: reflection
+    attributes:
+      label: 现在回头看，你会提醒后来者什么？
+    validations:
+      required: true
+  - type: textarea
+    id: checklist
+    attributes:
+      label: 离开这一关前，可以核对哪些事情？
+      placeholder: 每行一项，尽量写成可以执行的动作。
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: 可核验来源（如适用）
+      description: 优先填写政府、学校、医院、行业组织或原始文件链接，并注明查询日期。

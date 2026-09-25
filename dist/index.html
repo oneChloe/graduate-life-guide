@@ -7,6 +7,12 @@
       name="description"
       content="写给毕业零到五年的年轻人：选择当前存档，查看职业、金钱、生活与重启路线。"
     />
+    <meta name="theme-color" content="#080b12" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="毕业五年人生通关指南" />
+    <meta property="og:description" content="37 个主线、支线与 Boss 战关卡，写给即将毕业和工作零到五年的年轻人。" />
+    <meta property="og:url" content="https://graduate-five-year-guide.blitezero.chatgpt.site/" />
+    <link rel="canonical" href="https://graduate-five-year-guide.blitezero.chatgpt.site/" />
     <title>毕业五年人生通关指南</title>
     <link
       rel="icon"
@@ -15,6 +21,7 @@
     />
     <link rel="stylesheet" href="./styles.css" />
     <script src="./guide-content.js" defer></script>
+    <script src="./guide-sources.js" defer></script>
     <script src="./app.js" defer></script>
   </head>
   <body>
@@ -26,7 +33,7 @@
         <span class="brand-mark" aria-hidden="true">△</span>
         <span>
           <strong>人生通关指南</strong>
-          <small>毕业五年 · 过来人手册 0.2</small>
+          <small>毕业五年 · 过来人手册 0.3</small>
         </span>
       </a>
       <button class="ghost-button" id="resetButton" type="button">重新选路</button>
@@ -85,6 +92,21 @@
         <div class="route-line" id="routeLine"></div>
       </section>
 
+      <section class="progress-panel" aria-labelledby="progressTitle">
+        <div class="progress-copy">
+          <p class="eyebrow">你的本机存档</p>
+          <h2 id="progressTitle"><span id="readCount">0</span> / <span id="totalCount">37</span> 关已读</h2>
+          <p>收藏和进度只保存在当前浏览器，不需要注册，也不会上传个人数据。</p>
+        </div>
+        <div class="progress-actions">
+          <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+          <div class="progress-stat-row">
+            <span><strong id="savedCount">0</strong> 个收藏</span>
+            <button class="accent-button" id="continueButton" type="button">继续下一关</button>
+          </div>
+        </div>
+      </section>
+
       <section class="map-section" aria-labelledby="mapTitle">
         <div class="section-heading">
           <div>
@@ -92,6 +114,7 @@
             <h2 id="mapTitle">毕业五年的任务地图</h2>
           </div>
           <div class="tabs" role="tablist" aria-label="任务分类">
+            <button class="tab" role="tab" aria-selected="false" data-filter="all" type="button">全部</button>
             <button class="tab active" role="tab" aria-selected="true" data-filter="main" type="button">主线</button>
             <button class="tab" role="tab" aria-selected="false" data-filter="side" type="button">支线</button>
             <button class="tab" role="tab" aria-selected="false" data-filter="boss" type="button">Boss 战</button>
@@ -104,6 +127,12 @@
             <input id="questSearch" type="search" placeholder="例如：跳槽、租房、裁员、AI" autocomplete="off" />
           </label>
           <p id="questCount" aria-live="polite"></p>
+        </div>
+
+        <div class="library-filters" role="group" aria-label="阅读状态筛选">
+          <button class="library-filter active" data-library-filter="all" type="button">全部关卡</button>
+          <button class="library-filter" data-library-filter="saved" type="button">我的收藏</button>
+          <button class="library-filter" data-library-filter="read" type="button">已经读完</button>
         </div>
 
         <div class="quest-grid" id="questGrid"></div>
@@ -132,10 +161,23 @@
           </article>
         </div>
       </section>
+
+      <section class="contribution-panel" aria-labelledby="contributionTitle">
+        <div>
+          <p class="eyebrow">共同补完这张地图</p>
+          <h2 id="contributionTitle">你走过的弯路，可能正是别人缺少的路标</h2>
+          <p>欢迎提交真实经历，也欢迎指出失效链接、过时规则和容易误导的表达。可以匿名讲述，但请把背景、代价和适用条件写清楚。</p>
+        </div>
+        <div class="contribution-actions">
+          <a class="accent-link" href="https://github.com/oneChloe/graduate-life-guide/issues/new?template=experience.yml" target="_blank" rel="noreferrer">投稿一段经历 ↗</a>
+          <a class="plain-link" href="https://github.com/oneChloe/graduate-life-guide/issues/new?template=correction.yml" target="_blank" rel="noreferrer">报告过时或错误信息 ↗</a>
+        </div>
+      </section>
     </main>
 
     <footer>
       <p>体验版 · 内容会继续补充。涉及劳动、社保、医疗等规则时，请以当前官方信息为准。</p>
+      <a href="https://github.com/oneChloe/graduate-life-guide" target="_blank" rel="noreferrer">在 GitHub 查看与共建 ↗</a>
     </footer>
 
     <dialog class="quest-dialog" id="questDialog">
@@ -146,6 +188,12 @@
         <div class="dialog-meta" id="dialogMeta"></div>
         <h2 id="dialogTitle"></h2>
         <p class="dialog-lead" id="dialogLead"></p>
+
+        <div class="dialog-actions" aria-label="关卡操作">
+          <button id="saveQuestButton" type="button">收藏本关</button>
+          <button id="readQuestButton" type="button">标记读完</button>
+          <button id="copyLinkButton" type="button">复制关卡链接</button>
+        </div>
 
         <blockquote class="veteran-note">
           <span>过来人先说</span>
@@ -181,7 +229,16 @@
           <span>可以今天完成</span>
           <p id="dialogAction"></p>
         </div>
-        <p class="source-note" id="dialogSource"></p>
+        <div class="source-panel">
+          <p class="source-note" id="dialogSource"></p>
+          <div id="dialogSources"></div>
+        </div>
+
+        <nav class="dialog-navigation" aria-label="关卡翻页">
+          <button id="previousQuestButton" type="button">← 上一关</button>
+          <span id="dialogPosition"></span>
+          <button id="nextQuestButton" type="button">下一关 →</button>
+        </nav>
       </div>
     </dialog>
   </body>
