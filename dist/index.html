@@ -203,12 +203,25 @@
           <button id="copyLinkButton" type="button">复制关卡链接</button>
         </div>
 
+        <nav class="dialog-toc" id="dialogToc" aria-label="本关目录">
+          <div class="dialog-read-progress" aria-hidden="true"><span id="dialogReadProgress"></span></div>
+          <div class="dialog-toc-scroll">
+            <button type="button" data-dialog-target="questSectionContext">处境</button>
+            <button type="button" data-dialog-target="questSectionDiagnosis">判断</button>
+            <button type="button" data-dialog-target="questSectionRoutes">路线</button>
+            <button type="button" data-dialog-target="questSectionLedger">账本</button>
+            <button type="button" data-dialog-target="questSectionActions">行动</button>
+            <button type="button" data-dialog-target="questSectionReview">复盘</button>
+            <button type="button" data-dialog-target="questSectionSources">来源</button>
+          </div>
+        </nav>
+
         <blockquote class="veteran-note">
           <span>过来人先说</span>
           <p id="dialogVeteran"></p>
         </blockquote>
 
-        <div class="detail-block prose-block">
+        <div class="detail-block prose-block" id="questSectionContext">
           <h3>为什么很多人会卡在这里</h3>
           <div id="dialogStory"></div>
         </div>
@@ -218,12 +231,12 @@
           <div id="dialogScenario"></div>
         </div>
 
-        <div class="detail-block diagnosis-block">
+        <div class="detail-block diagnosis-block" id="questSectionDiagnosis">
           <h3>怎么判断自己卡在哪</h3>
           <div class="diagnosis-grid" id="dialogDiagnosis"></div>
         </div>
 
-        <div class="detail-block">
+        <div class="detail-block" id="questSectionRoutes">
           <h3>常见的三条路线</h3>
           <div class="option-list" id="dialogOptions"></div>
         </div>
@@ -233,7 +246,7 @@
           <ul id="dialogQuestions"></ul>
         </div>
 
-        <div class="detail-block ledger-block">
+        <div class="detail-block ledger-block" id="questSectionLedger">
           <h3>决策账本</h3>
           <div class="ledger-grid" id="dialogLedger"></div>
         </div>
@@ -258,12 +271,12 @@
           <ul id="dialogPause"></ul>
         </div>
 
-        <div class="detail-block plan-block">
+        <div class="detail-block plan-block" id="questSectionActions">
           <h3>三阶段行动路线</h3>
           <div class="plan-list" id="dialogPlan"></div>
         </div>
 
-        <div class="detail-block review-block">
+        <div class="detail-block review-block" id="questSectionReview">
           <h3>三十天后怎么复盘</h3>
           <ul id="dialogReview"></ul>
         </div>
@@ -277,9 +290,13 @@
           <span>另一面</span>
           <p id="dialogCounterpoint"></p>
         </aside>
-        <div class="source-panel">
+        <div class="source-panel" id="questSectionSources">
           <p class="source-note" id="dialogSource"></p>
           <div id="dialogSources"></div>
+          <div class="source-actions">
+            <a id="markdownSourceLink" target="_blank" rel="noreferrer">查看本关原文 ↗</a>
+            <a id="reportQuestLink" target="_blank" rel="noreferrer">纠错这一关 ↗</a>
+          </div>
         </div>
 
         <nav class="dialog-navigation" aria-label="关卡翻页">

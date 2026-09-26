@@ -67,6 +67,7 @@ function parseQuest(file) {
 
   return {
     ...meta,
+    contentPath: file,
     lead: requireSection(sections, "导语", file),
     scope: requireSection(sections, "适用范围", file),
     veteran: requireSection(sections, "过来人先说", file),

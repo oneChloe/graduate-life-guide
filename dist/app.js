@@ -129,6 +129,10 @@ const questCount = document.querySelector("#questCount");
 const saveQuestButton = document.querySelector("#saveQuestButton");
 const readQuestButton = document.querySelector("#readQuestButton");
 const copyLinkButton = document.querySelector("#copyLinkButton");
+const dialogToc = document.querySelector("#dialogToc");
+const dialogReadProgress = document.querySelector("#dialogReadProgress");
+const markdownSourceLink = document.querySelector("#markdownSourceLink");
+const reportQuestLink = document.querySelector("#reportQuestLink");
 const previousQuestButton = document.querySelector("#previousQuestButton");
 const nextQuestButton = document.querySelector("#nextQuestButton");
 
@@ -342,6 +346,8 @@ function openQuest(id, syncHash = true) {
   document.querySelector("#dialogAction").textContent = quest.action;
   document.querySelector("#dialogCounterpoint").textContent = quest.counterpoint;
   document.querySelector("#dialogSource").textContent = quest.source;
+  markdownSourceLink.href = `https://github.com/oneChloe/graduate-life-guide/blob/main/${quest.contentPath}`;
+  reportQuestLink.href = `https://github.com/oneChloe/graduate-life-guide/issues/new?template=correction.yml&title=${encodeURIComponent(`[纠错] ${quest.title}`)}`;
   renderSources(quest);
   updateDialogActions();
   updateDialogNavigation();
@@ -351,6 +357,9 @@ function openQuest(id, syncHash = true) {
     history[method](null, "", questHash(id));
   }
   if (!questDialog.open) questDialog.showModal();
+  questDialog.scrollTop = 0;
+  dialogReadProgress.style.width = "0%";
+  dialogToc.querySelectorAll("button").forEach((button) => button.classList.remove("active"));
 }
 
 function parseQuestHash() {
@@ -454,6 +463,21 @@ copyLinkButton.addEventListener("click", async () => {
     window.prompt("复制这个关卡链接", url);
   }
   window.setTimeout(() => { copyLinkButton.textContent = "复制关卡链接"; }, 1600);
+});
+
+dialogToc.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-dialog-target]");
+  if (!button) return;
+  const target = document.querySelector(`#${button.dataset.dialogTarget}`);
+  if (!target) return;
+  dialogToc.querySelectorAll("button").forEach((item) => item.classList.toggle("active", item === button));
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+questDialog.addEventListener("scroll", () => {
+  const available = questDialog.scrollHeight - questDialog.clientHeight;
+  const progress = available > 0 ? Math.min(100, Math.max(0, (questDialog.scrollTop / available) * 100)) : 0;
+  dialogReadProgress.style.width = `${progress}%`;
 });
 
 document.querySelector("#continueButton").addEventListener("click", () => {

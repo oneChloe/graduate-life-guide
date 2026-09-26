@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "如果这份指南帮助了你的研究、课程或公共项目，请引用本仓库。"
 title: "毕业五年人生通关指南"
 type: software
-version: 0.4.0
+version: 0.4.1
 date-released: 2026-09-26
 license: CC-BY-4.0
 repository-code: "https://github.com/oneChloe/graduate-life-guide"

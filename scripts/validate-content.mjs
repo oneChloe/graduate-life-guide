@@ -11,7 +11,7 @@ const quests = context.window.GUIDE_CONTENT;
 const sources = context.window.GUIDE_SOURCES;
 const errors = [];
 const allowedTypes = new Set(["main", "side", "boss"]);
-const requiredTextFields = ["id", "level", "title", "summary", "lead", "scope", "veteran", "action", "counterpoint", "source"];
+const requiredTextFields = ["id", "level", "title", "summary", "contentPath", "lead", "scope", "veteran", "action", "counterpoint", "source"];
 const sourceRequiredIds = ["offer", "probation", "social-security", "housing-commute", "layoff", "unpaid", "probation-fail", "burnout", "rent-scam"];
 const appSource = readFileSync("dist/app.js", "utf8");
 
@@ -30,6 +30,7 @@ if (!Array.isArray(quests)) {
     if (ids.has(quest.id)) errors.push(`${label}: id 重复`);
     ids.add(quest.id);
     if (!/^[a-z0-9-]+$/.test(quest.id || "")) errors.push(`${label}: id 只能使用小写字母、数字和连字符`);
+    if (!/^content\/(main|side|boss)\/[^/]+\.md$/.test(quest.contentPath || "")) errors.push(`${label}: contentPath 必须指向对应 Markdown 原文`);
     if (!allowedTypes.has(quest.type)) errors.push(`${label}: type 必须是 main、side 或 boss`);
     if (!Array.isArray(quest.story) || quest.story.length < 2) errors.push(`${label}: story 至少需要 2 段`);
     if (!Array.isArray(quest.scenario) || quest.scenario.length < 2) errors.push(`${label}: scenario 至少需要 2 段`);

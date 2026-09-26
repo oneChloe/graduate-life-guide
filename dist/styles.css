@@ -857,7 +857,8 @@ footer small {
   margin-top: 20px;
 }
 
-.dialog-actions button {
+.dialog-actions button,
+.dialog-actions a {
   padding: 9px 13px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -866,12 +867,77 @@ footer small {
   font-size: 0.8rem;
   font-weight: 800;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .dialog-actions button:hover,
-.dialog-actions button.active {
+.dialog-actions button.active,
+.dialog-actions a:hover {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+.dialog-toc {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  margin: 18px -38px 0;
+  padding: 13px 38px 12px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(17, 23, 35, 0.94);
+  backdrop-filter: blur(14px);
+}
+
+.dialog-read-progress {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  overflow: hidden;
+}
+
+.dialog-read-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--cyan));
+  transition: width 120ms linear;
+}
+
+.dialog-toc-scroll {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.dialog-toc-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.dialog-toc button {
+  flex: none;
+  padding: 7px 11px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.dialog-toc button:hover,
+.dialog-toc button.active {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent);
+}
+
+[id^="questSection"] {
+  scroll-margin-top: 76px;
 }
 
 .veteran-note {
@@ -1257,6 +1323,29 @@ footer small {
   text-decoration: underline;
 }
 
+.source-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.source-actions a {
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.source-actions a:hover {
+  border-color: var(--cyan);
+}
+
 .dialog-navigation {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -1414,6 +1503,13 @@ footer small {
 
   .dialog-content {
     padding: 30px 22px;
+  }
+
+  .dialog-toc {
+    margin-right: -22px;
+    margin-left: -22px;
+    padding-right: 22px;
+    padding-left: 22px;
   }
 
   .diagnosis-grid {
