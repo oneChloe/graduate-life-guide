@@ -22,6 +22,27 @@ body:
     validations:
       required: true
   - type: textarea
+    id: scope
+    attributes:
+      label: 这段经验适合谁，又不适合谁？
+      description: 请写出读者判断能否借鉴所需的具体条件。
+    validations:
+      required: true
+  - type: textarea
+    id: diagnosis
+    attributes:
+      label: 怎么判断一个人真正卡在哪里？
+      description: 请列出三到五个能被观察的信号，而不只写“焦虑”或“迷茫”。
+    validations:
+      required: true
+  - type: textarea
+    id: scenario
+    attributes:
+      label: 请还原一个具体场景
+      description: 当时发生了什么、你为什么那样判断、后来在哪一步发现偏差？请做好脱敏。
+    validations:
+      required: true
+  - type: textarea
     id: choice
     attributes:
       label: 你当时有哪些路线，后来选了什么？
@@ -40,6 +61,37 @@ body:
     validations:
       required: true
   - type: textarea
+    id: plan
+    attributes:
+      label: 今天、七天内和三十天内分别能做什么？
+      description: 每个阶段请同时写动作与可以核对的完成标准。
+    validations:
+      required: true
+  - type: textarea
+    id: pause
+    attributes:
+      label: 如果暂时不做决定，应该怎样安全地等待？
+      description: 请写默认动作、观察项、触发条件、要保留的退路和明确复盘日。
+    validations:
+      required: true
+  - type: textarea
+    id: counterpoint
+    attributes:
+      label: 这条经验的另一面是什么？
+      description: 在什么情况下，采取相反路线可能更适合？
+    validations:
+      required: true
+  - type: textarea
+    id: communication
+    attributes:
+      label: 这件事可以怎样跟关键人开口？
+      description: 请给出一到两句包含事实、诉求和时间的参考说法。
+  - type: textarea
+    id: review
+    attributes:
+      label: 三十天后应该怎样复盘？
+      description: 写三个能帮助判断继续、调整或退出的问题。
+  - type: textarea
     id: checklist
     attributes:
       label: 离开这一关前，可以核对哪些事情？
@@ -51,3 +103,10 @@ body:
     attributes:
       label: 可核验来源（如适用）
       description: 优先填写政府、学校、医院、行业组织或原始文件链接，并注明查询日期。
+  - type: checkboxes
+    id: license
+    attributes:
+      label: 投稿确认
+      options:
+        - label: 我有权提交这些内容，并同意文字按 CC BY 4.0 公开；内容不含未授权复制和可识别的私人信息。
+          required: true

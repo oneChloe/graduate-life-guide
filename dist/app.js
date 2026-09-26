@@ -172,12 +172,21 @@ function searchableText(quest) {
     quest.title,
     quest.summary,
     quest.lead,
+    quest.scope,
     quest.veteran,
     ...(quest.story || []),
+    ...(quest.diagnosis || []).flatMap((item) => [item.title, item.detail]),
     ...(quest.questions || []),
     ...(quest.pitfalls || []),
     ...(quest.checklist || []),
-    ...(quest.options || []).flatMap((option) => [option.name, option.fit, option.cost, option.warning])
+    ...(quest.pause || []),
+    ...(quest.options || []).flatMap((option) => [option.name, option.fit, option.cost, option.warning]),
+    ...(quest.plan || []).flatMap((item) => [item.when, item.action, item.done]),
+    ...(quest.scenario || []),
+    ...Object.values(quest.ledger || {}),
+    ...(quest.scripts || []),
+    ...(quest.review || []),
+    quest.counterpoint
   ].join(" ").toLowerCase();
 }
 
@@ -233,12 +242,21 @@ function updateDialogActions() {
 function estimateReadingMinutes(quest) {
   const text = [
     quest.lead,
+    quest.scope,
     quest.veteran,
     ...(quest.story || []),
+    ...(quest.scenario || []),
+    ...(quest.diagnosis || []).flatMap((item) => [item.title, item.detail]),
     ...(quest.questions || []),
     ...(quest.pitfalls || []),
     ...(quest.checklist || []),
-    ...(quest.options || []).flatMap((option) => Object.values(option))
+    ...(quest.pause || []),
+    ...(quest.options || []).flatMap((option) => Object.values(option)),
+    ...(quest.plan || []).flatMap((item) => [item.when, item.action, item.done]),
+    ...Object.values(quest.ledger || {}),
+    ...(quest.scripts || []),
+    ...(quest.review || []),
+    quest.counterpoint
   ].join("");
   return Math.max(2, Math.ceil(text.replace(/\s/g, "").length / 450));
 }
@@ -280,8 +298,17 @@ function openQuest(id, syncHash = true) {
   document.querySelector("#dialogMeta").textContent = `${meta.label} · ${quest.level} · 约 ${estimateReadingMinutes(quest)} 分钟`;
   document.querySelector("#dialogTitle").textContent = quest.title;
   document.querySelector("#dialogLead").textContent = quest.lead;
+  document.querySelector("#dialogScope").textContent = quest.scope;
   document.querySelector("#dialogVeteran").textContent = quest.veteran || quest.summary;
   document.querySelector("#dialogStory").innerHTML = (quest.story || [quest.lead]).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
+  document.querySelector("#dialogScenario").innerHTML = (quest.scenario || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
+  document.querySelector("#dialogDiagnosis").innerHTML = (quest.diagnosis || []).map((item, index) => `
+    <article class="diagnosis-card">
+      <span>0${index + 1}</span>
+      <h4>${escapeHtml(item.title)}</h4>
+      <p>${escapeHtml(item.detail)}</p>
+    </article>
+  `).join("");
   document.querySelector("#dialogOptions").innerHTML = (quest.options || []).map((option) => `
     <article class="option-card">
       <header><h4>${escapeHtml(option.name)}</h4><span>适合：${escapeHtml(option.fit)}</span></header>
@@ -290,9 +317,30 @@ function openQuest(id, syncHash = true) {
     </article>
   `).join("");
   document.querySelector("#dialogQuestions").innerHTML = (quest.questions || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  const ledger = quest.ledger || {};
+  document.querySelector("#dialogLedger").innerHTML = [
+    ["已知事实", ledger.facts],
+    ["仍在猜测", ledger.guesses],
+    ["不可逆成本", ledger.irreversible],
+    ["最小实验", ledger.experiment]
+  ].map(([label, value]) => `<div><span>${label}</span><p>${escapeHtml(value || "")}</p></div>`).join("");
+  document.querySelector("#dialogScripts").innerHTML = (quest.scripts || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
   document.querySelector("#dialogPitfalls").innerHTML = (quest.pitfalls || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
   document.querySelector("#dialogChecklist").innerHTML = (quest.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  document.querySelector("#dialogPause").innerHTML = (quest.pause || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  document.querySelector("#dialogPlan").innerHTML = (quest.plan || []).map((item, index) => `
+    <article class="plan-step">
+      <span class="plan-index">0${index + 1}</span>
+      <div>
+        <strong>${escapeHtml(item.when)}</strong>
+        <p>${escapeHtml(item.action)}</p>
+        <small>完成标准：${escapeHtml(item.done)}</small>
+      </div>
+    </article>
+  `).join("");
+  document.querySelector("#dialogReview").innerHTML = (quest.review || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
   document.querySelector("#dialogAction").textContent = quest.action;
+  document.querySelector("#dialogCounterpoint").textContent = quest.counterpoint;
   document.querySelector("#dialogSource").textContent = quest.source;
   renderSources(quest);
   updateDialogActions();

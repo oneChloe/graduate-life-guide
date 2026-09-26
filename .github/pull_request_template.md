@@ -12,4 +12,7 @@
 - [ ] 没有把个人经历写成适用于所有人的结论
 - [ ] 写清了路线的代价、风险和退出方式
 - [ ] 涉及政策、健康、法律或金融规则时附了当前官方来源
+- [ ] 没有复制无授权的书籍、课程、帖子或其他项目正文
+- [ ] 已运行 `node scripts/build-content.mjs`
+- [ ] 已运行 `node scripts/build-content.mjs --check`
 - [ ] 已运行 `node scripts/validate-content.mjs`

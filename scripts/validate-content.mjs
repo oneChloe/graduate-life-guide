@@ -11,7 +11,7 @@ const quests = context.window.GUIDE_CONTENT;
 const sources = context.window.GUIDE_SOURCES;
 const errors = [];
 const allowedTypes = new Set(["main", "side", "boss"]);
-const requiredTextFields = ["id", "level", "title", "summary", "lead", "veteran", "action", "source"];
+const requiredTextFields = ["id", "level", "title", "summary", "lead", "scope", "veteran", "action", "counterpoint", "source"];
 const sourceRequiredIds = ["offer", "probation", "social-security", "housing-commute", "layoff", "unpaid", "probation-fail", "burnout", "rent-scam"];
 const appSource = readFileSync("dist/app.js", "utf8");
 
@@ -32,15 +32,41 @@ if (!Array.isArray(quests)) {
     if (!/^[a-z0-9-]+$/.test(quest.id || "")) errors.push(`${label}: id 只能使用小写字母、数字和连字符`);
     if (!allowedTypes.has(quest.type)) errors.push(`${label}: type 必须是 main、side 或 boss`);
     if (!Array.isArray(quest.story) || quest.story.length < 2) errors.push(`${label}: story 至少需要 2 段`);
+    if (!Array.isArray(quest.scenario) || quest.scenario.length < 2) errors.push(`${label}: scenario 至少需要 2 段`);
+    if (!Array.isArray(quest.diagnosis) || quest.diagnosis.length < 3) errors.push(`${label}: diagnosis 至少需要 3 个判断信号`);
     if (!Array.isArray(quest.options) || quest.options.length !== 3) errors.push(`${label}: options 需要 3 条路线`);
     if (!Array.isArray(quest.questions) || quest.questions.length < 3) errors.push(`${label}: questions 至少需要 3 项`);
+    if (!quest.ledger || typeof quest.ledger !== "object") errors.push(`${label}: 缺少决策账本`);
+    for (const field of ["facts", "guesses", "irreversible", "experiment"]) {
+      if (typeof quest.ledger?.[field] !== "string" || !quest.ledger[field].trim()) errors.push(`${label}: 决策账本缺少 ${field}`);
+    }
+    if (!Array.isArray(quest.scripts) || quest.scripts.length < 2) errors.push(`${label}: scripts 至少需要 2 句`);
     if (!Array.isArray(quest.pitfalls) || quest.pitfalls.length < 3) errors.push(`${label}: pitfalls 至少需要 3 项`);
     if (!Array.isArray(quest.checklist) || quest.checklist.length < 4) errors.push(`${label}: checklist 至少需要 4 项`);
+    if (!Array.isArray(quest.pause) || quest.pause.length < 3) errors.push(`${label}: pause 至少需要 3 项`);
+    if (!Array.isArray(quest.plan) || quest.plan.length !== 3) errors.push(`${label}: plan 需要 3 个行动阶段`);
+    if (!Array.isArray(quest.review) || quest.review.length < 3) errors.push(`${label}: review 至少需要 3 个复盘问题`);
+
+    for (const [diagnosisIndex, diagnosis] of (quest.diagnosis || []).entries()) {
+      for (const field of ["title", "detail"]) {
+        if (typeof diagnosis?.[field] !== "string" || !diagnosis[field].trim()) {
+          errors.push(`${label}: 第 ${diagnosisIndex + 1} 个判断信号缺少 ${field}`);
+        }
+      }
+    }
 
     for (const [optionIndex, option] of (quest.options || []).entries()) {
       for (const field of ["name", "fit", "cost", "warning"]) {
         if (typeof option?.[field] !== "string" || !option[field].trim()) {
           errors.push(`${label}: 第 ${optionIndex + 1} 条路线缺少 ${field}`);
+        }
+      }
+    }
+
+    for (const [planIndex, step] of (quest.plan || []).entries()) {
+      for (const field of ["when", "action", "done"]) {
+        if (typeof step?.[field] !== "string" || !step[field].trim()) {
+          errors.push(`${label}: 第 ${planIndex + 1} 个行动阶段缺少 ${field}`);
         }
       }
     }

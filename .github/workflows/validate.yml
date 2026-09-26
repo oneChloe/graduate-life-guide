@@ -17,4 +17,6 @@ jobs:
         with:
           node-version: 22
       - name: 检查关卡结构和资料来源
-        run: node scripts/validate-content.mjs
+        run: |
+          node scripts/build-content.mjs --check
+          node scripts/validate-content.mjs

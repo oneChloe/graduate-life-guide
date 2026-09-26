@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="写给毕业零到五年的年轻人：选择当前存档，查看职业、金钱、生活与重启路线。"
+      content="开源的毕业五年人生通关指南：37 个职业、金钱、生活与重启关卡，写清适用条件、现实代价、行动路线与核验来源。"
     />
     <meta name="theme-color" content="#080b12" />
     <meta property="og:type" content="website" />
@@ -33,7 +33,7 @@
         <span class="brand-mark" aria-hidden="true">△</span>
         <span>
           <strong>人生通关指南</strong>
-          <small>毕业五年 · 过来人手册 0.3</small>
+          <small>毕业五年 · 过来人手册 0.4</small>
         </span>
       </a>
       <button class="ghost-button" id="resetButton" type="button">重新选路</button>
@@ -176,8 +176,11 @@
     </main>
 
     <footer>
-      <p>体验版 · 内容会继续补充。涉及劳动、社保、医疗等规则时，请以当前官方信息为准。</p>
-      <a href="https://github.com/oneChloe/graduate-life-guide" target="_blank" rel="noreferrer">在 GitHub 查看与共建 ↗</a>
+      <p>开源共建版 · 内容会持续核验。涉及劳动、社保、医疗等规则时，请以当前官方信息为准。</p>
+      <div>
+        <a href="https://github.com/oneChloe/graduate-life-guide" target="_blank" rel="noreferrer">在 GitHub 查看与共建 ↗</a>
+        <small>代码 MIT · 原创文字 CC BY 4.0</small>
+      </div>
     </footer>
 
     <dialog class="quest-dialog" id="questDialog">
@@ -188,6 +191,11 @@
         <div class="dialog-meta" id="dialogMeta"></div>
         <h2 id="dialogTitle"></h2>
         <p class="dialog-lead" id="dialogLead"></p>
+
+        <div class="scope-note">
+          <span>适用范围</span>
+          <p id="dialogScope"></p>
+        </div>
 
         <div class="dialog-actions" aria-label="关卡操作">
           <button id="saveQuestButton" type="button">收藏本关</button>
@@ -205,6 +213,16 @@
           <div id="dialogStory"></div>
         </div>
 
+        <div class="detail-block scenario-block">
+          <h3>一个典型场景</h3>
+          <div id="dialogScenario"></div>
+        </div>
+
+        <div class="detail-block diagnosis-block">
+          <h3>怎么判断自己卡在哪</h3>
+          <div class="diagnosis-grid" id="dialogDiagnosis"></div>
+        </div>
+
         <div class="detail-block">
           <h3>常见的三条路线</h3>
           <div class="option-list" id="dialogOptions"></div>
@@ -213,6 +231,16 @@
         <div class="detail-block">
           <h3>这一关先想清楚</h3>
           <ul id="dialogQuestions"></ul>
+        </div>
+
+        <div class="detail-block ledger-block">
+          <h3>决策账本</h3>
+          <div class="ledger-grid" id="dialogLedger"></div>
+        </div>
+
+        <div class="detail-block script-block">
+          <h3>怎么跟关键人开口</h3>
+          <ul id="dialogScripts"></ul>
         </div>
 
         <div class="detail-block pitfall-block">
@@ -225,10 +253,30 @@
           <ul id="dialogChecklist"></ul>
         </div>
 
+        <div class="detail-block pause-block">
+          <h3>如果暂时不做决定</h3>
+          <ul id="dialogPause"></ul>
+        </div>
+
+        <div class="detail-block plan-block">
+          <h3>三阶段行动路线</h3>
+          <div class="plan-list" id="dialogPlan"></div>
+        </div>
+
+        <div class="detail-block review-block">
+          <h3>三十天后怎么复盘</h3>
+          <ul id="dialogReview"></ul>
+        </div>
+
         <div class="detail-block action-block">
           <span>可以今天完成</span>
           <p id="dialogAction"></p>
         </div>
+
+        <aside class="counterpoint-block">
+          <span>另一面</span>
+          <p id="dialogCounterpoint"></p>
+        </aside>
         <div class="source-panel">
           <p class="source-note" id="dialogSource"></p>
           <div id="dialogSources"></div>
