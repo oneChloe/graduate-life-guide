@@ -1,0 +1,47 @@
+name: 发布 GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 读取仓库
+        uses: actions/checkout@v6
+
+      - name: 配置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 检查指南内容
+        run: |
+          node scripts/build-content.mjs --check
+          node scripts/validate-content.mjs
+
+      - name: 配置 GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: 上传静态网站
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+      - name: 发布网站
+        id: deployment
+        uses: actions/deploy-pages@v4

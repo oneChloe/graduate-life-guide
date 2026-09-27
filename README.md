@@ -8,7 +8,7 @@
 
 它不是一份标准答案，也不是把人生做成升级打怪的待办清单。它更像一张由过来人共同补完的地图：当你站在找工作、选城市、跳槽、转行、裁员、租房、关系和家庭这些路口时，可以先看看别人走过什么弯路、付出过什么代价，再决定自己的下一步。
 
-在线阅读：<https://graduate-five-year-guide.blitezero.chatgpt.site>
+在线阅读：<https://onechloe.github.io/graduate-life-guide/>
 
 ## 现在有什么
 

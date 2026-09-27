@@ -6,7 +6,7 @@ version: 0.4.1
 date-released: 2026-09-26
 license: CC-BY-4.0
 repository-code: "https://github.com/oneChloe/graduate-life-guide"
-url: "https://graduate-five-year-guide.blitezero.chatgpt.site/"
+url: "https://onechloe.github.io/graduate-life-guide/"
 abstract: "写给即将毕业与工作零到五年的年轻人的开源过来人手册，覆盖职业、金钱、生活支线与突发关卡。"
 authors:
   - name: "毕业五年人生通关指南贡献者"
